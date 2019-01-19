@@ -6,7 +6,7 @@ const connection = mysql.createConnection({
     host : "localhost",
     port: 3306,
     user : "root",
-    password : "Brad5740!",
+    password : "AUBootcamp2019",
     database : "bamazon_db"
 });
 
@@ -21,9 +21,10 @@ const outputFormat = (res) => {
 const inventory = () => {
     connection.query('SELECT * FROM bamazon_db.products', function(err, res, fields) {
         if (err) throw err;
-        console.log("----------\n");
-        outputFormat(res);
-        console.log("----------");
+        // console.log("----------\n");
+        // outputFormat(res);
+        // console.log("----------");
+        console.table(res);
     });
 
     connection.end();
