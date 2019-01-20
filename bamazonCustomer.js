@@ -13,7 +13,7 @@ const connection = mysql.createConnection({
 
 // Function for producing a list of the products
 const inventory = () => {
-    connection.query('SELECT * FROM bamazon_db.products', function(err, res, fields) {
+    connection.query('SELECT item_id, product_name, department_name, price, stock_quantity FROM bamazon_db.products', function(err, res, fields) {
         if (err) throw err;
         console.log("");
         console.table(res);
@@ -21,8 +21,12 @@ const inventory = () => {
 };
 
 // Function for updating the store database
-const storeUpdate = (itemID, quantity) => {
-    connection.query('UPDATE bamazon_db.products SET stock_quantity = stock_quantity - ? WHERE item_id = ?', [quantity, itemID], function(err, res, fields) {
+const storeUpdate = (itemID, quantity, customerTotal) => {
+    connection.query('UPDATE bamazon_db.products SET stock_quantity = stock_quantity - ? WHERE item_id = ?', [quantity, itemID], function(err, res, fields) {8
+        if (err) throw err;
+    });
+
+    connection.query('UPDATE bamazon_db.products SET product_sales = product_sales + ? WHERE item_id = ?', [customerTotal, itemID], function(err, res, fields) {
         if (err) throw err;
     });
 };
@@ -37,7 +41,7 @@ const checkInventory = (itemID, quantity) => {
 
             console.log(`\nYour order for ${quantity} ${res[0].product_name} comes to a total of $${customerTotal}`);
 
-            storeUpdate(itemID, quantity);
+            storeUpdate(itemID, quantity, customerTotal);
 
             console.log("\nYour order will be placed right away. Thank you for shopping with us!\n");
 

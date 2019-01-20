@@ -10,6 +10,7 @@ CREATE TABLE products(
     department_name VARCHAR(40) NOT NULL,
     price DECIMAL(10,2) NOT NULL,
     stock_quantity INT NOT NULL,
+    product_sales DECIMAL(10,2) DEFAULT 0.00 NOT NULL,
     PRIMARY KEY(item_id)
 );
 
@@ -25,3 +26,11 @@ INSERT INTO products(product_name, department_name, price, stock_quantity) VALUE
 INSERT INTO products(product_name, department_name, price, stock_quantity) VALUES("Operating System", "Software", 149.99, 40);
 INSERT INTO products(product_name, department_name, price, stock_quantity) VALUES("Productivity Software Package", "Software", 249.99, 40);
 INSERT INTO products(product_name, department_name, price, stock_quantity) VALUES("Graphic Design Software Package", "Software", 349.99, 30);
+
+DROP TABLE IF EXISTS departments;
+CREATE TABLE departments(
+	department_id VARCHAR(40) NOT NULL,
+    department_name VARCHAR(40) NOT NULL,
+    over_head_costs INT NOT NULL,
+    PRIMARY KEY(department_id)
+);
