@@ -15,6 +15,7 @@ const connection = mysql.createConnection({
 const inventory = () => {
     connection.query('SELECT * FROM bamazon_db.products', function(err, res, fields) {
         if (err) throw err;
+        console.log("");
         console.table(res);
     });
 };
@@ -34,7 +35,7 @@ const checkInventory = (itemID, quantity) => {
         if (quantity <= res[0].stock_quantity) {
             var customerTotal = quantity * res[0].price;
 
-            console.log(`\nYour order for ${quantity} ${res[0].product_name} comes to a total of $${customerTotal}\n`);
+            console.log(`\nYour order for ${quantity} ${res[0].product_name} comes to a total of $${customerTotal}`);
 
             storeUpdate(itemID, quantity);
 
@@ -43,63 +44,64 @@ const checkInventory = (itemID, quantity) => {
             connection.end();
         } else if (quantity > res[0].stock_quantity) {
             console.log("\nI'm sorry, but we don't have enough of this item in stock! Please try a different order.\n");
-            customerMenu1();
+            customerMenu();
         };
     });
 };
 
 // Inquirer function ( with variables) for customers
-var customerItem = "";
-var customerQuantity = "";
+var customerItem;
+var customerQuantity;
+var customerProduct;
 
-const customerMenu1 = () => {
+const customerMenu =() => {
     inquirer.prompt([
         {
-            name: "customerMenu1",
+            name: "customerItem",
             message: "Please enter the ID number for the item you wish to purchase.",
             type: "input"
         }
     ]).then((answer) => {
-        customerItem = answer.customerMenu1;
-        customerMenu2();
+        customerItem = answer.customerItem;
+
+        inquirer.prompt([
+            {
+                name: "customerQuantity",
+                message: "And how many of this item would you like?",
+                type: "input"
+            }
+        ]).then((answer) => {
+            customerQuantity = answer.customerQuantity;
+
+            connection.query('SELECT * FROM `products` WHERE item_id = ?', customerItem, function(err, res, fields) {
+                if (err) throw err;
+                customerProduct = res[0].product_name;
+
+                inquirer.prompt([
+                    {
+                        name: "customerConfirm",
+                        message: `Your order is for ${customerQuantity} of ${customerProduct}. Is this correct?`,
+                        type: "confirm"
+                    }
+                ]).then((answer) => {
+                    if (answer.customerConfirm === true) {
+                        checkInventory(customerItem, customerQuantity);
+                    } else if (answer.customerConfirm === false) {
+                        customerMenu();
+                    }
+                });
+            });
+        });
     });
 };
 
-const customerMenu2 = () => {
-    inquirer.prompt([
-        {
-            name: "customerMenu2",
-            message: "And how many of this item would you like?",
-            type: "input"
-        }
-    ]).then((answer) => {
-        customerQuantity = answer.customerMenu2;
-        customerOrder();
-    });
-};
-
-const customerOrder = () => {
-    inquirer.prompt([
-        {
-            name: "customerConfirm",
-            message: `Your order is for ${customerQuantity} of item # ${customerItem}. Is this correct?`,
-            type: "confirm"
-        }
-    ]).then((answer) => {
-        if (answer.customerConfirm === true) {
-            checkInventory(customerItem, customerQuantity);
-        } else if (answer.customerConfirm === false) {
-            customerMenu1();
-        }
-    });
-};
 
 // Final interface function
 const bamazonStore = () => {
     console.log("\n");
     console.log(`\nHello and welcome to Bamazon! Here is what we have for sale, today:\n`)
     inventory();
-    customerMenu1();
+    customerMenu();
 };
 
 bamazonStore();

@@ -140,7 +140,7 @@ const openingMenu = () => {
     inquirer.prompt([
         {
             name: "openingMenu",
-            message: "\nWelcome to the Bamazon Manager Application!\n\n",
+            message: "Welcome to the Bamazon Manager Application!\n\n",
             type: "list",
             choices: ["View Products for Sale", "View Low Inventory", "Add to Inventory", "Add New Product"]
         }
