@@ -34,3 +34,7 @@ CREATE TABLE departments(
     over_head_costs INT NOT NULL,
     PRIMARY KEY(department_id)
 );
+
+INSERT INTO departments(department_id, department_name, over_head_costs) VALUES("1", "Hardware", 20000.00);
+INSERT INTO departments(department_id, department_name, over_head_costs) VALUES("2", "Furniture", 17500.00);
+INSERT INTO departments(department_id, department_name, over_head_costs) VALUES("3", "Software", 12000.00);
