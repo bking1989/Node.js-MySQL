@@ -70,7 +70,7 @@ From that opening menu, Bamazon managers have four options to choose from:
 - Add to Inventory
 - Add New Product
 
-Selection "View Products for Sale" will prompt our application to print out a tabulated display of all the information in our database -- including what products are in the system, their unique ID numbers, how many are in stock, and what department has them.
+Selecting "View Products for Sale" will prompt our application to print out a tabulated display of all the information in our database -- including what products are in the system, their unique ID numbers, how many are in stock, and what department has them.
 
 ![ManagerView_02](https://bking1989.github.io/Node.js-MySQL/images/image_03.png)
 
