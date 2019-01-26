@@ -15,8 +15,8 @@ const connection = mysql.createConnection({
 const inventory = () => {
     connection.query('SELECT item_id, product_name, department_name, price, stock_quantity FROM bamazon_db.products', function(err, res, fields) {
         if (err) throw err;
-        console.log("");
         console.table(res);
+        console.log("\n")
     });
 };
 
@@ -105,7 +105,7 @@ const bamazonStore = () => {
     console.log("\n");
     console.log(`\nHello and welcome to Bamazon! Here is what we have for sale, today:\n`)
     inventory();
-    customerMenu();
+    setTimeout(function() {customerMenu()}, 200);
 };
 
 bamazonStore();

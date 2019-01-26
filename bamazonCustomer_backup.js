@@ -6,8 +6,8 @@ const connection = mysql.createConnection({
     host : "localhost",
     port: 3306,
     user : "root",
-    // password : "Brad5740!",
-    password : "AUBootcamp2019",
+    password : "Brad5740!",
+    // password : "AUBootcamp2019",
     database : "bamazon_db"
 });
 
@@ -15,9 +15,8 @@ const connection = mysql.createConnection({
 const inventory = () => {
     connection.query('SELECT item_id, product_name, department_name, price, stock_quantity FROM bamazon_db.products', function(err, res, fields) {
         if (err) throw err;
+        console.log("");
         console.table(res);
-        console.log("\n")
-        connection.end();
     });
 };
 
@@ -106,7 +105,7 @@ const bamazonStore = () => {
     console.log("\n");
     console.log(`\nHello and welcome to Bamazon! Here is what we have for sale, today:\n`)
     inventory();
-    setTimeout(function() {customerMenu()}, 200);
+    customerMenu();
 };
 
 bamazonStore();
